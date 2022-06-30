@@ -13,7 +13,7 @@ use Project\Response;
  * Send custom HTTP headers
  * Throw an exception for erroneous HTTP response codes (e.g. 4xx, 5xx)
  */
-class HTTP_Client
+class Curl
 {
     public function __construct(){}
 

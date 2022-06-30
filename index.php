@@ -8,14 +8,15 @@ use Project\Curl;
  */
 function submitAssessment()
 {
-    $tokenResponse = Curl::options('https://www.coredna.com/assessment-endpoint.php');
+    $curl = new Curl();
+    $tokenResponse = $curl->options('https://www.coredna.com/assessment-endpoint.php');
 
-    $response = Curl::post(
+    $response = $curl->post(
         'https://www.coredna.com/assessment-endpoint.php',
         [
             'name' => 'Andrew Savetchuk',
             'email' => 'andrew.savetchuk@gmail.com',
-            'url' => 'https://github.com/AndrewSavetchuk/php-http-client',
+            'url' => 'https://github.com/ctqhbn/coderbyte',
         ],
         [
             'Authorization' => 'Bearer ' . $tokenResponse->getBody(),
