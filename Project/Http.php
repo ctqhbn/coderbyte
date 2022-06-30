@@ -12,7 +12,7 @@ require_once 'Project/Response.php';
  * Send custom HTTP headers
  * Throw an exception for erroneous HTTP response codes (e.g. 4xx, 5xx)
  */
-class Curl
+class Http
 {
     public function __construct(){}
 

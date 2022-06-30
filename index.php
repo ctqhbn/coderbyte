@@ -1,18 +1,18 @@
 <?php
 
 require_once 'Project/Utils.php';
-require_once 'Project/Curl.php';
+require_once 'Project/Http.php';
 
 /**
  * Submit assessment to Coderbyte.
  */
 function submitAssessment()
 {
-    $curl = new Curl();
+    $http = new Http();
     $url = "https://corednacom.corewebdna.com/assessment-endpoint.php";
-    $tokenResponse = $curl->options($url);
+    $tokenResponse = $http->options($url);
 
-    $response = $curl->post(
+    $response = $http->post(
         $url,
         [
             'name' => 'Sang Ha Ngoc',
