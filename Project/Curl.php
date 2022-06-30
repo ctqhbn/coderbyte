@@ -28,7 +28,7 @@ class Curl
 
   public function get($url, $body = null, $headers = [])
   {
-    return $this->send('GET', $url, $body, $headers);
+    return $this->exec('GET', $url, $body, $headers);
   }
 
   /**
@@ -42,7 +42,7 @@ class Curl
    */
   public function post($url, $body = null, $headers = [])
   {
-    return $this->send('POST', $url, $body, $headers);
+    return $this->exec('POST', $url, $body, $headers);
   }
 
   /**
@@ -56,7 +56,7 @@ class Curl
    */
   public function put($url, $body = null, $headers = [])
   {
-    return $this->send('PUT', $url, $body, $headers);
+    return $this->exec('PUT', $url, $body, $headers);
   }
 
   /**
@@ -70,7 +70,7 @@ class Curl
    */
   public function delete($url, $body = null, $headers = [])
   {
-    return $this->send('DELETE', $url, $body, $headers);
+    return $this->exec('DELETE', $url, $body, $headers);
   }
 
   /**
@@ -84,7 +84,7 @@ class Curl
    */
   public function head($url, $body = null, $headers = [])
   {
-    return $this->send('HEAD', $url, $body, $headers);
+    return $this->exec('HEAD', $url, $body, $headers);
   }
 
   /**
@@ -98,7 +98,7 @@ class Curl
    */
   public function options($url, $body = null, $headers = [])
   {
-    return $this->send('OPTIONS', $url, $body, $headers);
+    return $this->exec('OPTIONS', $url, $body, $headers);
   }
 
     /**
@@ -110,7 +110,7 @@ class Curl
      * @param array $headers Request headers
      * @return array Request data: 0 - url; 1 - request options
      */
-    private function buildRequest($method, $url, $body = null, $headers = [])
+    private function createRequest($method, $url, $body = null, $headers = [])
     {
         $content = '';
 
@@ -141,7 +141,7 @@ class Curl
                 $body = http_build_query($body);
             }
             } elseif (empty($headers['content-type'])) {
-            $headers['content-type'] = 'application/x-www-form-urlencoded';
+                $headers['content-type'] = 'application/x-www-form-urlencoded';
             }
 
             $content = $body;
@@ -216,9 +216,9 @@ class Curl
     * @return Response
     * @throws Exception
     */
-    public function send($method, $url, $body = null, $headers = [])
+    public function exec($method, $url, $body = null, $headers = [])
     {
-        [$url, $options] = $this->buildRequest($method, $url, $body, $headers);
+        [$url, $options] = $this->createRequest($method, $url, $body, $headers);
 
         $context = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
