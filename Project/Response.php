@@ -1,9 +1,7 @@
 <?php
 
-namespace Project;
-
 /**
- * Class HTTP_Response
+ * Class Response
  *
  * Lightweight HTTP response capable of the following:
  *

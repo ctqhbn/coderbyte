@@ -1,8 +1,7 @@
 <?php
 
-namespace Project;
+require_once 'Project/Response.php';
 
-use Project\Response;
 /**
  * Class HTTP_Client
  *
@@ -219,7 +218,7 @@ class Curl
 
       // If the status code not in 2xx or 3xx, throw an exception.
       if (strpos($status, '2') !== 0 && strpos($status, '3') !== 0) {
-        throw new Exception("Unexpected response status: {$status} while fetching {$url}\n" . $status_line);
+        throw new \Exception("Unexpected response status: {$status} while fetching {$url}\n" . $status_line);
       }
     }
 

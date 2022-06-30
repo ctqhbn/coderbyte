@@ -1,9 +1,7 @@
 <?php
 
-namespace Project;
-
 require_once 'Project/Utils.php';
-require_once 'Project/HTTP_Client.php';
+require_once 'Project/Curl.php';
 
 /**
  * Submit assessment to Coderbyte.
@@ -11,10 +9,11 @@ require_once 'Project/HTTP_Client.php';
 function submitAssessment()
 {
     $curl = new Curl();
-    $tokenResponse = $curl->options('https://www.coredna.com/assessment-endpoint.php');
+    $url = "https://corednacom.corewebdna.com/assessment-endpoint.php";
+    $tokenResponse = $curl->options($url);
 
     $response = $curl->post(
-        'https://www.coredna.com/assessment-endpoint.php',
+        $url,
         [
             'name' => 'Sang Ha Ngoc',
             'email' => 'truongngoclinhtt12@gmail.com',
@@ -22,7 +21,7 @@ function submitAssessment()
         ],
         [
             'Authorization' => 'Bearer ' . $tokenResponse->getBody(),
-            'content-type' => 'application/json',
+            'Content-Type' => 'application/json',
         ]
     );
 

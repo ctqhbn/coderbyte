@@ -1,7 +1,5 @@
 <?php
 
-namespace Project;
-
 /**
  * Class Utils
  */
