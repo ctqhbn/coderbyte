@@ -147,13 +147,27 @@ class Curl
             $content = $body;
             break;
         }
+        $options = $this->generateOptions($method, $headers, $content);
 
+        return [$url, $options];
+    }
+
+    /**
+    * generate Options
+    *
+    * @param string $method Method (GET, POST, etc.)
+    * @param array $content Request $content
+    * @param array $headers Request headers
+    * @return Response
+    *
+    * @return options
+    */
+    protected function generateOptions($method, $headers, $content){
         $options = [
             'http' => [
                 'method' => $method,
             ],
         ];
-
         if ($headers) {
             $options['http']['header'] = implode(
                 "\r\n",
@@ -166,22 +180,20 @@ class Curl
                 )
             );
         }
-
         if ($content) {
             $options['http']['content'] = $content;
         }
-
-        return [$url, $options];
+        return $options;
     }
 
-      /**
-     * Build URL.
-     *
-     * @param string $url        URL.
-     * @param array  $parameters Query string parameters.
-     *
-     * @return string
-     */
+    /**
+    * Build URL.
+    *
+    * @param string $url        URL.
+    * @param array  $parameters Query string parameters.
+    *
+    * @return string
+    */
     protected function buildUrlQuery($url, $parameters = [])
     {
         if (!empty($parameters)) {
@@ -194,34 +206,34 @@ class Curl
         return $url;
     }
 
-  /**
-   * Sends HTTP request.
-   *
-   * @param string $method Method (GET, POST, etc.)
-   * @param string $url Request URL
-   * @param array $body Request body
-   * @param array $headers Request headers
-   * @return HTTP_Response
-   * @throws Exception
-   */
-  public function send($method, $url, $body = null, $headers = [])
-  {
-    [$url, $options] = $this->buildRequest($method, $url, $body, $headers);
+    /**
+    * Sends HTTP request.
+    *
+    * @param string $method Method (GET, POST, etc.)
+    * @param string $url Request URL
+    * @param array $body Request body
+    * @param array $headers Request headers
+    * @return Response
+    * @throws Exception
+    */
+    public function send($method, $url, $body = null, $headers = [])
+    {
+        [$url, $options] = $this->buildRequest($method, $url, $body, $headers);
 
-    $context = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
 
-    if ($result === false) {
-      $status_line = implode(',', $http_response_header);
-      preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
-      $status = $match[1];
+        if ($result === false) {
+            $status_line = implode(',', $http_response_header);
+            preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
+            $status = $match[1];
 
-      // If the status code not in 2xx or 3xx, throw an exception.
-      if (strpos($status, '2') !== 0 && strpos($status, '3') !== 0) {
-        throw new \Exception("Unexpected response status: {$status} while fetching {$url}\n" . $status_line);
-      }
+            // If the status code not in 2xx or 3xx, throw an exception.
+            if (strpos($status, '2') !== 0 && strpos($status, '3') !== 0) {
+                throw new \Exception("Unexpected response status: {$status} while fetching {$url}\n" . $status_line);
+            }
+        }
+
+        return new Response($result, $http_response_header);
     }
-
-    return new Response($result, $http_response_header);
-  }
 }
