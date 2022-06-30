@@ -1,7 +1,9 @@
 <?php
 
-use Project\Utils;
-use Project\Curl;
+namespace Project;
+
+require_once 'Project/Utils.php';
+require_once 'Project/HTTP_Client.php';
 
 /**
  * Submit assessment to Coderbyte.
@@ -14,8 +16,8 @@ function submitAssessment()
     $response = $curl->post(
         'https://www.coredna.com/assessment-endpoint.php',
         [
-            'name' => 'Andrew Savetchuk',
-            'email' => 'andrew.savetchuk@gmail.com',
+            'name' => 'Sang Ha Ngoc',
+            'email' => 'truongngoclinhtt12@gmail.com',
             'url' => 'https://github.com/ctqhbn/coderbyte',
         ],
         [
